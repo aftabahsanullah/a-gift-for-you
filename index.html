@@ -3,121 +3,321 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Birthday Surprise</title>
+    <title>A Special Surprise ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
     <style>
-        
+        :root {
+            --gold: #d4af37;
+            --maroon: #2b0101;
+            --cream: #fffdf5;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            background-color: #1a1a1a;
-            color: white;
-            font-family: 'Arial', sans-serif;
+            background-color: #0a0a0a;
+            color: var(--cream);
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            text-align: center;
+            padding: 15px;
+        }
+
+        /* Screen 1: Input Area */
+        #input-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, #1a1a1a, #000);
+            z-index: 100;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            margin: 0;
+            align-items: center;
+            transition: 1s ease;
             padding: 20px;
-            text-align: center;
         }
 
-        h1 {
-            font-size: 1.8rem;
-            color: #ff4757;
-            margin-bottom: 20px;
+        .input-card {
+            padding: 30px;
+            border: 1px solid var(--gold);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+            width: 100%;
+            max-width: 350px;
         }
 
-        #timer {
-            font-size: 1.5rem;
-            letter-spacing: 2px;
-            background: #333;
-            padding: 20px;
-            border-radius: 10px;
-            border: 2px solid #ff4757;
-            width: 90%;
-            max-width: 450px;
-            box-sizing: border-box;
-        }
-
-        button {
-            margin-top: 30px;
-            padding: 15px 30px;
-            font-size: 1.1rem;
-            background-color: #ff4757;
-            color: white;
+        input {
+            background: transparent;
             border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            display: none; 
-            width: 80%;
-            max-width: 280px;
-        }
-
-        #message {
-            margin-top: 25px;
+            border-bottom: 2px solid var(--gold);
+            color: white;
+            padding: 10px;
             font-size: 1.2rem;
-            color: #ffa502;
-            display: none;
-            font-weight: bold;
+            text-align: center;
+            outline: none;
+            margin: 20px 0;
+            width: 80%;
+            font-family: 'Cinzel', serif;
         }
 
+        .btn-gold {
+            background: var(--gold);
+            color: black;
+            border: none;
+            padding: 12px 30px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+
+        /* Screen 2: Waiting Screen */
+        #waiting-screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .poetry-waiting {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            color: var(--gold);
+            margin-bottom: 30px;
+            line-height: 1.6;
+            padding: 0 10px;
+        }
+
+        .timer { 
+            display: flex; 
+            gap: 10px; 
+            justify-content: center;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .t-unit {
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            padding: 10px;
+            min-width: 70px;
+            border-radius: 10px;
+            background: rgba(0,0,0,0.3);
+        }
+
+        .t-unit h2 { font-size: 1.5rem; color: var(--gold); }
+        .t-unit p { font-size: 0.7rem; text-transform: uppercase; }
+
+        /* Screen 3: Surprise Screen */
+        #surprise-screen {
+            display: none;
+            width: 100%;
+            max-width: 550px;
+            animation: zoomIn 1.5s ease;
+        }
+
+        @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .luxury-box {
+            background: var(--maroon);
+            border: 4px double var(--gold);
+            padding: 30px 20px;
+            box-shadow: 0 0 60px rgba(0,0,0,1);
+            border-radius: 10px;
+        }
+
+        h1 { 
+            font-family: 'Great Vibes', cursive; 
+            font-size: 3rem; 
+            color: var(--gold); 
+            margin: 10px 0; 
+        }
         
-        @media (max-width: 400px) {
-            h1 { font-size: 1.4rem; }
-            #timer { font-size: 1.2rem; padding: 15px; }
-            button { font-size: 1rem; }
+        .nikkah-msg {
+            font-size: 1rem;
+            margin: 20px 0;
+            line-height: 1.6;
+            color: #eee;
+            font-weight: 300;
+        }
+
+        .badge {
+            display: inline-block;
+            border: 1px solid var(--gold);
+            padding: 6px 15px;
+            color: var(--gold);
+            letter-spacing: 2px;
+            font-size: 0.7rem;
+        }
+
+        #secret-message {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--gold);
+            border-radius: 15px;
+            font-style: italic;
+            line-height: 1.6;
+            color: var(--cream);
+            animation: fadeIn 2s;
+            font-size: 0.95rem;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .gold-dust {
+            position: absolute;
+            background: var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: rise 10s infinite linear;
+            z-index: -1;
+        }
+
+        @keyframes rise { 0% { transform: translateY(100vh); opacity: 0; } 50% { opacity: 0.5; } 100% { transform: translateY(-10vh); opacity: 0; } }
+
+        /* Tablet aur Mobile ke liye special fixes */
+        @media (max-width: 480px) {
+            h1 { font-size: 2.5rem; }
+            .nikkah-msg { font-size: 0.9rem; }
+            .poetry-waiting { font-size: 1rem; }
+            .t-unit { min-width: 60px; padding: 8px; }
         }
     </style>
 </head>
 <body>
 
-    <h1>A Special Gift is Loading... 🎁</h1>
-    
-    <div id="timer">Calculating Time...</div>
-
-    <button id="btn" onclick="startSurprise()">Read My Secret Message 💌</button>
-    
-    <div id="message">
-        "Jis pe rakha hai kadam maine..." ❤️ <br>
-        Happy Birthday in Advance!
+    <div id="input-screen">
+        <div class="input-card">
+            <h2 style="font-family: 'Cinzel', serif; font-weight: 400; color: var(--gold);">Identity Required</h2>
+            <input type="text" id="nameInput" placeholder="Enter Your Name"> <br>
+            <button class="btn-gold" onclick="processEntry()">Unlock ❤️</button>
+        </div>
     </div>
 
-    <audio id="audio">
+    <div id="waiting-screen">
+        <div class="poetry-waiting">
+            "Sabar ka phal meetha hota hai... <br>
+            Abhi waqt mein thodi deri hai, <br>
+            26 February ka intezar baki hai."
+        </div>
+        <div class="timer">
+            <div class="t-unit"><h2 id="d">00</h2><p>Days</p></div>
+            <div class="t-unit"><h2 id="h">00</h2><p>Hours</p></div>
+            <div class="t-unit"><h2 id="m">00</h2><p>Mins</p></div>
+            <div class="t-unit"><h2 id="s">00</h2><p>Secs</p></div>
+        </div>
+        <p style="margin-top: 30px; letter-spacing: 3px; font-size: 0.7rem; color: var(--gold);">STAY TUNED ❤️</p>
+    </div>
+
+    <div id="surprise-screen">
+        <div class="luxury-box">
+            <div class="badge">HAPPY BIRTHDAY</div>
+            <h1 id="displayName">Queen</h1>
+            
+            <div class="nikkah-msg">
+                "Saal girah Mubarak ho usko, jisne meri duniya ko roshan kiya. <br><br>
+                Sach toh ye hai ke main sirf aapka saath nahi chahta, <br>
+                balki <b>Main aapsay Nikkah karna chahta hoon.</b> <br>
+                Main us din ka, jab hum hamesha ke liye ek honge, <br>
+                <b>bohot besabri se intezar kar raha hoon.</b> ❤️"
+            </div>
+
+            <div class="badge" style="border: none; color: white; font-weight: bold;">💍 MY FUTURE WIFE • INSHA'ALLAH</div>
+            <br>
+            
+            <button class="btn-gold" id="reveal-btn" style="margin-top: 20px;" onclick="openSecret()">Read My Secret Message ✉️</button>
+
+            <div id="secret-message">
+                "Pata hai? Jab maine pehli baar tumhein dekha tha, usi pal mere dil ne keh diya tha ke tum hi wo <b>'Dream Girl'</b> ho jise main hamesha se chahta tha. <br><br>
+                Sahi kehte hain Kishore Da... <b>'Jis pe rakha hai kadam, dil ne mere wahan-wahan, bichaye hain naina...'</b> <br><br>
+                Tumhein dekh kar laga jaise meri talash khatam ho gayi... Tum meri sirf pasand nahi, balki meri wo dua ho jo Allah ne qubool farmayi hai. I love you forever! ❤️"
+            </div>
+        </div>
+    </div>
+
+    <audio id="audioTrack" loop>
         <source src="yoursong.mp3" type="audio/mpeg">
     </audio>
 
     <script>
-        
-        const targetDate = new Date("February 26, 2026 00:00:00").getTime();
+        const birthdayDate = new Date("Feb 26, 2026 00:00:00").getTime();
 
-        const x = setInterval(function() {
+        function processEntry() {
+            const name = document.getElementById('nameInput').value;
+            if(!name) { alert("Please enter your name ❤️"); return; }
+
             const now = new Date().getTime();
-            const distance = targetDate - now;
+            document.getElementById('input-screen').style.opacity = "0";
+            setTimeout(() => {
+                document.getElementById('input-screen').style.display = "none";
+                if (now >= birthdayDate) {
+                    showSurprise(name);
+                } else {
+                    showWaiting();
+                }
+            }, 1000);
+        }
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        function showWaiting() {
+            document.getElementById('waiting-screen').style.display = 'flex';
+            updateTimer();
+            setInterval(updateTimer, 1000);
+        }
 
-            document.getElementById("timer").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+        function updateTimer() {
+            const now = new Date().getTime();
+            const diff = birthdayDate - now;
+            if(diff <= 0) { location.reload(); }
+            document.getElementById('d').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById('h').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById('m').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById('s').innerText = Math.floor((diff % (1000 * 60)) / 1000);
+        }
 
+        function showSurprise(name) {
+            document.getElementById('displayName').innerText = name + " ❤️";
+            document.getElementById('surprise-screen').style.display = 'block';
+            document.body.style.background = "#1a0000";
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#d4af37', '#ffffff', '#ff0000'] });
+        }
+
+        function openSecret() {
+            document.getElementById('audioTrack').play();
+            document.getElementById('secret-message').style.display = 'block';
+            document.getElementById('reveal-btn').style.display = 'none';
             
-            if (distance < 0) {
-                clearInterval(x);
-                document.getElementById("timer").style.display = "none";
-                document.getElementById("btn").style.display = "block";
-                document.querySelector("h1").innerHTML = "The Surprise is Ready! ✨";
-            }
-        }, 1000);
+            var duration = 5 * 1000;
+            var animationEnd = Date.now() + duration;
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) { return clearInterval(interval); }
+                confetti({ particleCount: 40, origin: { x: Math.random(), y: Math.random() - 0.2 } });
+            }, 250);
+        }
 
-        function startSurprise() {
-            const song = document.getElementById("audio");
-            const msg = document.getElementById("message");
-            const btn = document.getElementById("btn");
-
-            song.play();
-            msg.style.display = "block";
-            btn.innerHTML = "Playing Your Song... 🎵";
+        // Gold Dust Particles
+        for(let i=0; i<30; i++) {
+            let d = document.createElement('div');
+            d.className = 'gold-dust';
+            d.style.width = Math.random() * 3 + 'px';
+            d.style.height = d.style.width;
+            d.style.left = Math.random() * 100 + 'vw';
+            d.style.animationDuration = (Math.random() * 5 + 5) + 's';
+            document.body.appendChild(d);
         }
     </script>
 </body>
 </html>
+
