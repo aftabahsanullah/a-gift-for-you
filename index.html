@@ -3,84 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Special Surprise</title>
+    <title>Birthday Surprise</title>
     <style>
+        
         body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+            background-color: #1a1a1a;
+            color: white;
             font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
             text-align: center;
         }
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            width: 85%;
-            max-width: 350px;
-        }
-        h1 { color: #d63384; font-size: 1.6rem; }
-        #timer {
-            font-size: 1.3rem;
-            margin: 20px 0;
-            padding: 15px;
-            background: #fff0f3;
-            border-radius: 10px;
+
+        h1 {
+            font-size: 1.8rem;
             color: #ff4757;
-            font-weight: bold;
+            margin-bottom: 20px;
         }
+
+        #timer {
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            background: #333;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ff4757;
+            width: 90%;
+            max-width: 450px;
+            box-sizing: border-box;
+        }
+
         button {
-            background: #d63384;
+            margin-top: 30px;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            background-color: #ff4757;
             color: white;
             border: none;
-            padding: 15px;
-            border-radius: 25px;
-            width: 100%;
-            font-size: 1rem;
-            display: none; /* 26 Feb ko dikhega */
+            border-radius: 50px;
             cursor: pointer;
+            display: none; 
+            width: 80%;
+            max-width: 280px;
         }
-        #msg { display: none; margin-top: 20px; font-weight: bold; color: #333; }
+
+        #message {
+            margin-top: 25px;
+            font-size: 1.2rem;
+            color: #ffa502;
+            display: none;
+            font-weight: bold;
+        }
+
+        
+        @media (max-width: 400px) {
+            h1 { font-size: 1.4rem; }
+            #timer { font-size: 1.2rem; padding: 15px; }
+            button { font-size: 1rem; }
+        }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>For Someone Special ❤️</h1>
-        <p>Wait for the magic to happen...</p>
-        <div id="timer">Loading...</div>
-        <button id="btn" onclick="start()">Read My Secret Message 💌</button>
-        <div id="msg">"Jis pe rakha hai kadam maine..." <br> Happy Birthday! 🎂</div>
+
+    <h1>A Special Gift is Loading... 🎁</h1>
+    
+    <div id="timer">Calculating Time...</div>
+
+    <button id="btn" onclick="startSurprise()">Read My Secret Message 💌</button>
+    
+    <div id="message">
+        "Jis pe rakha hai kadam maine..." ❤️ <br>
+        Happy Birthday in Advance!
     </div>
 
-    <audio id="song"><source src="yoursong.mp3" type="audio/mpeg"></audio>
+    <audio id="audio">
+        <source src="yoursong.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
-        const target = new Date("February 26, 2026 00:00:00").getTime();
-        setInterval(function() {
+        
+        const targetDate = new Date("February 26, 2026 00:00:00").getTime();
+
+        const x = setInterval(function() {
             const now = new Date().getTime();
-            const diff = target - now;
-            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((diff % (1000 * 60)) / 1000);
-            document.getElementById("timer").innerHTML = d + "d " + h + "h " + m + "m " + s + "s";
-            if (diff < 0) {
+            const distance = targetDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("timer").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+            
+            if (distance < 0) {
+                clearInterval(x);
                 document.getElementById("timer").style.display = "none";
                 document.getElementById("btn").style.display = "block";
+                document.querySelector("h1").innerHTML = "The Surprise is Ready! ✨";
             }
         }, 1000);
 
-        function start() {
-            document.getElementById("song").play();
-            document.getElementById("msg").style.display = "block";
-            document.getElementById("btn").innerHTML = "Playing... 🎵";
+        function startSurprise() {
+            const song = document.getElementById("audio");
+            const msg = document.getElementById("message");
+            const btn = document.getElementById("btn");
+
+            song.play();
+            msg.style.display = "block";
+            btn.innerHTML = "Playing Your Song... 🎵";
         }
     </script>
 </body>
 </html>
-
